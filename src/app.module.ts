@@ -4,11 +4,13 @@ import { AppService } from './app.service';
 import { LoginModule } from './login/login.module';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { db } from './config/db.config';
+import { CharModule } from './char/char.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(db),
-    LoginModule
+    LoginModule,
+    CharModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,6 +3,7 @@ import { LoginService } from './services/login/login.service';
 import { RequestLogionDto } from './dtos/request-login.dto';
 import { Response } from 'express';
 import { QueryGetLoginDto } from './dtos/query-get-login.dto';
+import { QueryGetLoginsDto } from './dtos/query-get-logins.dto';
 
 @Controller('api/login')
 export class LoginController {
@@ -19,6 +20,7 @@ export class LoginController {
                 idUser: response.raw.insertId
             })
         } catch (error) {
+            console.log('ERROR:', error);
             throw error
         }
     }
@@ -26,7 +28,18 @@ export class LoginController {
     @Get('get-login')
     async getLogin(@Query() query: QueryGetLoginDto, @Res() res: Response){
         try {
-            const response = await this.loginService.getLogin(query.email)
+            const response = await this.loginService.getLogin(query)
+            res.status(HttpStatus.OK).send(response)
+        } catch (error) {
+            console.log('ERROR:', error);
+            throw error
+        }
+    }
+
+    @Get('get-logins')
+    async getLogins(@Query() query: QueryGetLoginsDto, @Res() res: Response){
+        try {
+            const response = await this.loginService.getLogins(query)
             res.status(HttpStatus.OK).send(response)
         } catch (error) {
             throw error

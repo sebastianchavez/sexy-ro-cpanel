@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Char } from "src/char/entities/char.entity";
+import { Column, Entity, JoinColumn, JoinTable, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('login')
 export class Login {
@@ -61,4 +62,9 @@ export class Login {
   
     @Column()
     web_auth_token_enabled: number;
+
+    @JoinColumn({ name: 'account_id' })
+    @JoinTable({ name: 'char' })
+    @OneToMany((type) => Char, (c) => c.account_id)
+    char?: Char[]
 }

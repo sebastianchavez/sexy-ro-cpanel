@@ -2,7 +2,9 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RequestLogionDto } from 'src/login/dtos/request-login.dto';
 import { Login } from '../../../login/entities/login.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
+import { QueryGetLoginDto } from 'src/login/dtos/query-get-login.dto';
+import { QueryGetLoginsDto } from 'src/login/dtos/query-get-logins.dto';
 
 @Injectable()
 export class LoginService {
@@ -12,13 +14,53 @@ export class LoginService {
         private loginRepository: Repository<Login>,
     ){}
 
-    async getLogin(email: string) {
+    async getLogin(query: QueryGetLoginDto) {
         try {
-            const loginUser = await this.loginRepository.findOneBy({email})
+            const { email, user } = query
+            const loginUser = await this.loginRepository.findOne({
+                where: [
+                    { 
+                        email
+                    },
+                    {
+                        userid: user
+                    }
+                ]
+            })
             return loginUser
         } catch (error) {
             throw error
         } 
+    }
+
+    async getLogins(query: QueryGetLoginsDto){
+        try {
+            const { limit, page, email } = query
+            const logins = await this.loginRepository.find({
+                select: {
+                    account_id: true,
+                    userid: true,
+                    email: true,
+                    last_ip: true,
+                    char: true,
+                    state: true,
+                    sex: true
+                },
+                where: {
+                    email
+                },
+                skip: (page * limit - limit),
+                take: limit,
+                relations: ['char']
+            })
+            const totalAccounts = await this.loginRepository.countBy({email})
+            return {
+                totalAccounts,
+                logins
+            }
+        } catch (error) {
+            throw error
+        }
     }
 
     async register(request: RequestLogionDto) {
