@@ -5,6 +5,7 @@ import { Login } from '../../../login/entities/login.entity';
 import { Like, Repository } from 'typeorm';
 import { QueryGetLoginDto } from 'src/login/dtos/query-get-login.dto';
 import { QueryGetLoginsDto } from 'src/login/dtos/query-get-logins.dto';
+import { RequestUpdateLoginDto } from 'src/login/dtos/request-update-login.dto';
 
 @Injectable()
 export class LoginService {
@@ -88,5 +89,21 @@ export class LoginService {
         login.old_group = 0
         login.web_auth_token_enabled = 0
         return this.loginRepository.insert(login)
+    }
+
+    async updateLogin(request: RequestUpdateLoginDto){
+        const { account_id, sex, user_pass } = request
+        try {
+            const login = await this.loginRepository.findOneBy({ account_id })
+            if(login){
+                login.sex = sex
+                login.user_pass = user_pass
+                return this.loginRepository.save(login)
+            } else {
+                throw new HttpException('Usuario inválido', HttpStatus.BAD_REQUEST)
+            }
+        } catch (error) {
+            throw error            
+        }
     }
 }

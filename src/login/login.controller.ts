@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpStatus, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query, Res, Put } from '@nestjs/common';
 import { LoginService } from './services/login/login.service';
 import { RequestLogionDto } from './dtos/request-login.dto';
 import { Response } from 'express';
 import { QueryGetLoginDto } from './dtos/query-get-login.dto';
 import { QueryGetLoginsDto } from './dtos/query-get-logins.dto';
+import { RequestUpdateLoginDto } from './dtos/request-update-login.dto';
 
 @Controller('api/login')
 export class LoginController {
@@ -40,6 +41,16 @@ export class LoginController {
     async getLogins(@Query() query: QueryGetLoginsDto, @Res() res: Response){
         try {
             const response = await this.loginService.getLogins(query)
+            res.status(HttpStatus.OK).send(response)
+        } catch (error) {
+            throw error
+        }
+    }
+
+    @Put('update-login')
+    async updateLogin(@Body() body: RequestUpdateLoginDto, @Res() res: Response) {
+        try {
+            const response = await this.loginService.updateLogin(body)
             res.status(HttpStatus.OK).send(response)
         } catch (error) {
             throw error
