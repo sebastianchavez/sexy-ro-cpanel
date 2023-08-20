@@ -1,5 +1,5 @@
 import { Login } from "src/login/entities/login.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('char')
 export class Char {
@@ -14,6 +14,9 @@ export class Char {
   
     @Column()
     base_exp: number;
+
+    @Column()
+    base_level: number;
   
     @Column()
     body: number;
@@ -149,5 +152,10 @@ export class Char {
 
     @ManyToOne((type) => Login, (l) => l.account_id)
     @JoinColumn({ name: 'account_id' })
-    account_id;
+    account_id: number;
+
+    @JoinColumn({ name: 'account_id' })
+    @JoinTable({ name: 'login' })
+    @ManyToOne((type) => Login, (l) => l.account_id)
+    login?: Login;
 }
