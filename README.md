@@ -5,7 +5,7 @@ Orientado a operaciones de administación de servidores de Ragnarok Online
 
 ## Comenzando 🚀
 
-+ [Descargar desde github](https://github.com/sebastianchavez/sexy-ro-cpanel.git) 
++ [Descargar desde github](https://github.com/sebastianchavez/sexy-ro-cpanel/tree/release) 
 
 
 ### Pre-requisitos 📋
