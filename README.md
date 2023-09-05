@@ -1,4 +1,4 @@
-# CPanel Backen Sexy RO
+# CPanel Backend Sexy RO
 
 Proyecto Backend desarrollado con NestJs.
 Orientado a operaciones de administación de servidores de Ragnarok Online 
