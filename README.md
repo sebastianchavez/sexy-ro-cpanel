@@ -9,7 +9,7 @@ Orientado a operaciones de administación de servidores de Ragnarok Online
 
 
 ### Pre-requisitos 📋
-Es necesario tener instalado nodejs, ademas de contar con una base de datos a la cual realizaremos las operaciones del proyecto
+Es necesario tener instalado NodeJs, NestJs, ademas de contar con una base de datos a la cual realizaremos las operaciones del proyecto
 
 Para despliegue de aplicación se recomienda utilizar proyectos dedicados al despliegue de aplicaciones en node como PM2. 
 
